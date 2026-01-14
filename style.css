@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+.container {
+  width: 700px;
+  min-height: 420px;
+  background: #fff;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: min-height 0.6s ease;
+}
+
+.container.active {
+  min-height: 1000px;
+}
+
+.form-box {
+  position: absolute;
+  width: 100%;
+  padding: 40px;
+  transition: 0.6s ease;
+}
+
+.login { left: 0; }
+.register { left: 100%; }
+
+.container.active .login { left: -100%; }
+.container.active .register { left: 0; }
+
+h2, p { text-align: center; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  resize: none;
+  height: 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #6a11cb;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.btn:hover { background: #2575fc; }
+
+.switch span {
+  color: #6a11cb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gender-options {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+}
+
+.notification {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+}
+
+.notification.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.notification.warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.notification.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.strength-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 5px;
+}
+
+.strength-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.strength-weak { width: 33%; background: #dc3545; }
+.strength-medium { width: 66%; background: #ffc107; }
+.strength-strong { width: 100%; background: #28a745; }
+
+#strengthText {
+  font-size: 12px;
+}

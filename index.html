@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login & Register</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" id="container">
+
+  <!-- LOGIN -->
+  <div class="form-box login">
+    <h2>Welcome Back</h2>
+    <p>Login to your account</p>
+
+    <input type="text" placeholder="Username" required>
+    <input type="password" placeholder="Password" required>
+
+    <button class="btn">Login</button>
+    <p class="switch">
+      Don't have an account?
+      <span onclick="showRegister()">Sign Up</span>
+    </p>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="form-box register">
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+      <div class="grid">
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+
+        <input type="date" required>
+
+        <!-- Gender -->
+        <div class="gender-group full">
+          <label class="gender-label">Gender</label>
+          <div class="gender-options">
+            <label><input type="radio" name="gender" required> Male</label>
+            <label><input type="radio" name="gender"> Female</label>
+            <label><input type="radio" name="gender"> Other</label>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <select id="region" required>
+          <option value="">Select Region</option>
+          <option value="metro_manila">Metro Manila</option>
+          <option value="north_luzon">North Luzon</option>
+          <option value="south_luzon">South Luzon</option>
+          <option value="visayas">Visayas</option>
+          <option value="mindanao">Mindanao</option>
+        </select>
+
+        <select id="province" required disabled>
+          <option value="">Select Province</option>
+        </select>
+
+        <select id="city" required disabled>
+          <option value="">Select City</option>
+        </select>
+
+        <input type="text" placeholder="Street No. / Block" required>
+        <input type="text" placeholder="Company Name" required>
+        <input type="text" placeholder="Office Address" required>
+
+      </div>
+        <!-- Password -->
+        <input type="password" id="password" placeholder="Password"s required>
+
+        <!-- Strength -->
+        <div class="strength-wrapper full">
+          <div class="strength-bar">
+            <span id="strength"></span>
+          </div>
+          <small id="strengthText">Password strength</small>
+        </div>
+
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+      <div id="notification" class="notification"></div>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+
+    <p class="switch">
+      Already have an account?
+      <span onclick="showLogin()">Login</span>
+    </p>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
