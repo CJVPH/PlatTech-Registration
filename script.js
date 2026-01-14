@@ -1,66 +1,14 @@
 const container = document.getElementById("container");
 const form = document.getElementById("registerForm");
 const notification = document.getElementById("notification");
-const firstNameInput = document.getElementById("firstName");
-const lastNameInput = document.getElementById("lastName");
-const phoneInput = document.getElementById("phone");
-const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const strengthBar = document.getElementById("strength");
 const strengthText = document.getElementById("strengthText");
 const regionSelect = document.getElementById("region");
 const provinceSelect = document.getElementById("province");
 const citySelect = document.getElementById("city");
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const firstName = firstNameInput.value.trim();
-  const lastName = lastNameInput.value.trim();
-  const phone = phoneInput.value.trim();
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  const confirm = document.getElementById("confirmPassword").value;
-  const terms = document.getElementById("terms").checked;
-
-  const nameRegex = /^[A-Za-z\s]{2,}$/;
-  const phoneRegex = /^09\d{9}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-
-  if (!nameRegex.test(firstName))
-    return showNotification("Invalid first name ❌", "error");
-
-  if (!nameRegex.test(lastName))
-    return showNotification("Invalid last name ❌", "error");
-
-  if (!phoneRegex.test(phone))
-    return showNotification("Phone must be 09XXXXXXXXX ❌", "error");
-
-  if (!emailRegex.test(email))
-    return showNotification("Invalid email address ❌", "error");
-
-  if (!passwordRegex.test(password))
-    return showNotification("Weak password ❌", "error");
-
-  if (password !== confirm)
-    return showNotification("Passwords do not match ❌", "error");
-
-  if (!terms)
-    return showNotification("Accept the terms ❌", "error");
-
-  showNotification("Registration successful ✅", "success");
-});
-
-function showNotification(message, type) {
-  notification.textContent = message;
-  notification.className = `notification ${type}`;
-  notification.style.display = "block";
-
-  setTimeout(() => notification.style.display = "none", 3000);
-}
-
+const firstNameInput = document.getElementById("firstName");
+const lastNameInput = document.getElementById("lastName");
 
 /* SWITCH FORMS */
 function showRegister() {
@@ -84,67 +32,62 @@ function showLogin() {
   container.classList.remove("active");
 }
 
+/* NAME VALIDATION */
+const nameRegex = /^[A-Za-z\s]+$/;
+
+function validateName(input, fieldName) {
+  if (!nameRegex.test(input.value.trim())) {
+    showNotification(`${fieldName} can only contain letters and spaces. ❌`, "error");
+    input.value = input.value.replace(/[^A-Za-z\s]/g, ""); // Remove invalid characters
+  }
+}
+
+firstNameInput.addEventListener("input", () => validateName(firstNameInput, "First Name"));
+lastNameInput.addEventListener("input", () => validateName(lastNameInput, "Last Name"));
+
 /* PASSWORD STRENGTH */
 passwordInput.addEventListener("input", () => {
-  const value = passwordInput.value;
+  const password = passwordInput.value;
   let strength = 0;
 
-  if (value.length >= 8) strength++;
-  if (/[A-Z]/.test(value)) strength++;
-  if (/[a-z]/.test(value)) strength++;
-  if (/[0-9]/.test(value)) strength++;
-  if (/[^A-Za-z0-9]/.test(value)) strength++;
+  if (password.length >= 8) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[a-z]/.test(password)) strength++;
+  if (/[0-9]/.test(password)) strength++;
+  if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-  strengthBar.className = "";
-
-  if (strength <= 2) {
-    strengthBar.classList.add("strength-weak");
-    strengthText.textContent = "Weak password";
-  } else if (strength <= 4) {
-    strengthBar.classList.add("strength-medium");
-    strengthText.textContent = "Medium strength";
-  } else {
-    strengthBar.classList.add("strength-strong");
-    strengthText.textContent = "Strong password";
+  switch (strength) {
+    case 1:
+      strengthBar.className = "weak";
+      strengthText.textContent = "Weak";
+      break;
+    case 2:
+      strengthBar.className = "fair";
+      strengthText.textContent = "Fair";
+      break;
+    case 3:
+      strengthBar.className = "good";
+      strengthText.textContent = "Good";
+      break;
+    case 4:
+      strengthBar.className = "strong";
+      strengthText.textContent = "Strong";
+      break;
+    case 5:
+      strengthBar.className = "very-strong";
+      strengthText.textContent = "Very Strong";
+      break;
+    default:
+      strengthBar.className = "";
+      strengthText.textContent = "Password strength";
   }
 });
 
-/* FORM SUBMIT */
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const password = passwordInput.value;
-  const confirm = document.getElementById("confirmPassword").value;
-  const terms = document.getElementById("terms").checked;
-
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-
-  if (!regex.test(password))
-    return showNotification("Password requirements not met ❌", "error");
-
-  if (password !== confirm)
-    return showNotification("Passwords do not match ❌", "error");
-
-  if (!terms)
-    return showNotification("You must accept the terms ❌", "error");
-
-  showNotification("Registration successful ✅", "success");
-});
-
-/* NOTIFICATION */
-function showNotification(message, type) {
-  notification.textContent = message;
-  notification.className = `notification ${type}`;
-  notification.style.display = "block";
-
-  setTimeout(() => notification.style.display = "none", 3000);
-}
-
 /* ADDRESS DATA */
 const addressData = {
-  metro_manila: { "Metro Manila": ["Manila","Quezon City","Makati"] },
+  metro_manila: { "Metro Manila": ["Manila", "Quezon City", "Makati"] },
   north_luzon: { "Ilocos Norte": ["Laoag"] },
-  south_luzon: { "Laguna": ["Calamba","Biñan"] },
+  south_luzon: { "Laguna": ["Calamba", "Biñan"] },
   visayas: { "Cebu": ["Cebu City"] },
   mindanao: { "Davao del Sur": ["Davao City"] }
 };
@@ -170,3 +113,14 @@ provinceSelect.addEventListener("change", () => {
   addressData[regionSelect.value][provinceSelect.value]
     .forEach(c => citySelect.add(new Option(c, c)));
 });
+
+/* NOTIFICATION FUNCTION */
+function showNotification(message, type) {
+  notification.textContent = message;
+  notification.className = `notification ${type}`;
+  notification.style.display = "block";
+
+  setTimeout(() => {
+    notification.style.display = "none";
+  }, 3000);
+}
